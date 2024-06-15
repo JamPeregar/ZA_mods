@@ -1,0 +1,671 @@
+// This file was decompiled using SASCM.ini published on 2022-03-20
+// Special thanks to mfisto
+{$CLEO .cs}
+
+0000: NOP 
+
+:NONAME_2
+wait 0 
+if and
+  Player.Defined($11991)     
+  $ACTIVE_INTERIOR == 0
+jf @NONAME_2   
+TIMERA = 0
+wait 10   
+while TIMERA < 35000
+    wait 0
+    if
+        0ADC: test_cheat "THEHELI" 
+    then
+        03E5: show_text_box 'CHEAT1'
+        jump @NONAME_3
+    end  
+    //29@ -= 1
+end //while
+wait 0 
+if 
+    gosub @CONDS
+jf @NONAME_2
+0209: 29@ = random_int_in_ranges 0 2    //Random spawn or no    Рандом спавнить или нет 
+wait 0 
+if 
+  29@ == 0
+jf @NONAME_2
+wait 100 
+jump @NONAME_3
+
+:NONAME_3  
+wait 0
+0247: load_model 7 
+0247: load_model 7 
+0247: load_model 7 
+0247: load_model 7 
+0247: load_model 7 
+0247: load_model 355  //weapon
+0247: load_model #MAVERICK  //469
+038B: load_requested_models 
+
+:NONAME_114
+wait 0
+00D6: if or
+8248:   not model 7 available
+8248:   not model 7 available
+8248:   not model 7 available
+8248:   not model 7 available
+8248:   not model 7 available
+jf @NONAME_115
+0002: jump @NONAME_114  
+
+:NONAME_115 
+wait 0
+00D6: if or
+8248:   not model 355 available
+8248:   not model #MAVERICK available
+jf @NONAME_158 
+0002: jump @NONAME_115 
+
+:NONAME_158 
+wait 0
+04C4: store_coords_to 1@ 2@ 3@ from_actor $11992 with_offset 100.0 100.0 50.0 
+04C4: store_coords_to 6@ 7@ 8@ from_actor $11992 with_offset -100.0 -100.0 0.0 
+0208: 9@ = random_float_in_ranges 1@ 6@ 
+0208: 10@ = random_float_in_ranges 2@ 7@ 
+0087: 11@ = 3@ // (float) 
+00D6: if 
+00C2:   sphere_onscreen 9@ 10@ 11@ radius 5.0 //точка вне экрана? 
+004D: jump_if_false @NONAME_284 
+0001: wait 0 ms 
+0002: jump @NONAME_158 
+
+:NONAME_284
+wait 0
+00A5: 5@ = create_car #MAVERICK at 9@ 10@ 11@ 
+00A0: store_actor $11992 position_to 1@ 2@ 3@ 
+039F: set_car 5@ race_to 1@ 2@  
+/*if                    //set car colour
+    //20@ == 0
+then                          
+    wait 0
+else
+    0229: set car 30@ color to 20@ 21@
+end  */  
+
+0129: 4@ = create_actor_pedtype 31 model 7 in_car 5@ driverseat 
+01C5: remove_actor_from_mission_cleanup_list 4@ 
+0223: set_actor 4@ health_to 1000 
+08AF: set_actor 4@ max_health_to 1000 
+0446: set_actor 4@ dismemberment_possible 0 
+054A: set_actor 4@ can_be_shot_in_a_car 0 
+04D8: set_actor 4@ drowns_in_water 0 
+05BC: AS_actor 4@ jump 1 
+
+for 27@ = 0 to 3 step 1
+    009A: 13@(27@,4i) = create_actor_pedtype 26 model 7 at 9@ 10@ 11@ 
+    01C5: remove_actor_from_mission_cleanup_list 13@(27@,4i) 
+    0223: set_actor 13@(27@,4i) health_to 500
+    0446: set_actor 13@(27@,4i) dismemberment_possible 0 
+    054A: set_actor 13@(27@,4i) can_be_shot_in_a_car 0 
+    04D8: set_actor 13@(27@,4i) drowns_in_water 0 
+    05BC: AS_actor 13@(27@,4i) jump 1
+end 
+
+Actor.SetImmunities(16@, False, False, False, True, False)
+Actor.SetImmunities(15@, False, False, False, True, False)
+Actor.SetImmunities(14@, False, False, False, True, False)
+Actor.SetImmunities(13@, False, False, False, True, False)
+
+0464: put_actor 13@ into_turret_on_car 5@ at_car_offset 1.4 1.3 -0.1 position 3 shooting_angle_limit 190.0 with_weapon 30 
+02E2: set_actor 13@ weapon_accuracy_to 90 
+0464: put_actor 14@ into_turret_on_car 5@ at_car_offset 1.4 -0.8 -0.1 position 3 shooting_angle_limit 190.0 with_weapon 30 
+02E2: set_actor 14@ weapon_accuracy_to 90 
+0464: put_actor 15@ into_turret_on_car 5@ at_car_offset -1.4 1.3 -0.1 position 1 shooting_angle_limit 190.0 with_weapon 30 
+02E2: set_actor 15@ weapon_accuracy_to 90 
+0464: put_actor 16@ into_turret_on_car 5@ at_car_offset -1.4 -0.8 -0.1 position 1 shooting_angle_limit 190.0 with_weapon 30 
+02E2: set_actor 16@ weapon_accuracy_to 90 
+
+
+0825: set_helicopter 5@ instant_rotor_start 
+//0726: heli 5@ follow_actor $11992 follow_car -1 radius 30.0 
+07BB: set_heli 5@ horizontal_thrust_power 4
+0227: 20@ = car 5@ health 
+0249: release_model 7 
+//0249: release_model 7 
+//0249: release_model 7 
+//0249: release_model 7
+//0249: release_model 7 
+0249: release_model #MAVERICK
+//0249: release_model 12434
+0AAC: 3@ = load_audio_stream "AUDIO\SOUNDS\MUSIC\dynamic_music\survival_ambient\random_sounds\city_battle14.wav"
+//0AB3: var $9066 = 5@    //HELI
+2@ = 6 //BOMBS
+wait 100
+
+0AAD: set_audio_stream 3@ state 1   
+0002: jump @NONAME_290
+
+:NONAME_290 
+wait 0
+0227: 20@ = car 5@ health 
+wait 100 
+//gosub @PROP_0
+wait 0
+    
+if or
+  Actor.Dead($11992)
+  gosub @IS_DEAD
+jf @NEMESIS_0
+
+jump @NONAME_835 
+
+//find wich or someone else to follow. if wich founded - drop bomb
+:NEMESIS_0
+wait 0
+if and
+    not Actor.Dead(4@)  
+    2@ > 0
+then    
+    if
+        Actor.Dead(17@)
+    then
+        if 
+            0AB1: call_scm_func @SUSPECT_NEST 2 4@ 5@ res 17@
+        then
+            if 
+                056D: is_char_exist 17@
+            then
+                actor.StorePos(17@, 6@, 7@, 8@)  //0@ = 13@ ..
+                04A2: heli 5@ fly_to 6@ 7@ 8@ speed 40.0 60.0
+                if 
+                    0AB1: call_scm_func @BOMB_0 4 2@ 5@ 6@ 7@ res //6@ 7@
+                then
+                    2@ -= 1
+                    17@ = 0
+                end
+            
+            end 
+        else
+            0AB1: call_scm_func @ASSAULT_0 2 4@ 5@ //res 17@
+        end
+        
+    else
+        if 
+            056D: is_char_exist 17@
+        then
+            actor.StorePos(17@, 6@, 7@, 8@)  //0@ = 13@ ...
+            04A2: heli 5@ fly_to 6@ 7@ 8@ speed 40.0 60.0
+        end  
+        if 
+            0AB1: call_scm_func @BOMB_0 4 2@ 5@ 6@ 7@ res //6@ 7@
+        then
+            2@ -= 1
+            17@ = 0
+        end   
+    end //end dead 17
+    
+    
+end  //end dead 4@
+
+:NEMESIS_EXTRAS
+wait 0
+for 27@ = 0 to 3
+    if and
+        not Actor.Dead(13@(27@,4i))
+        0AB1: call_scm_func @CLOSER 1 13@(27@,4i) 
+    then
+        wait 0
+    end
+end
+
+//Bomb check
+wait 0 
+if or
+    not Actor.Dead(13@)
+    not Actor.Dead(14@)
+    not Actor.Dead(15@)
+    not Actor.Dead(16@)
+then
+    wait 0
+else
+    jump @NONAME_835
+end 
+if //or
+    //gosub @GUNNERS_DEAD
+    2@ < 1
+then
+    jump @NONAME_835
+end
+
+if
+  gosub @IS_LEFT
+jf @NONAME_290
+jump @NONAME_845
+
+
+:NONAME_835
+wait 0
+0A1C: set_helicopter 5@ play_engine_sounds 0
+//00BC: show_text_hightpriority GXT 'TEST_03' time 2000 flag 1
+
+if 
+    gosub @IS_LEFT    
+then
+    jump @NONAME_845
+end
+if or
+    Actor.Dead(4@)  
+    20@ < 251 
+    Car.Wrecked(5@)  
+then
+     
+    05BE: set_actor 4@ dead
+    
+    for 27@ = 0 to 3 step 1
+        0465: remove_actor 13@(27@,4i) from_turret_mode
+        05BE: set_actor_dead 13@(27@,4i)
+    end
+        
+    jump @NONAME_840
+
+end
+
+00BB: show_text_lowpriority GXT 'PLT_04' time 1000 flag 1  
+gosub @FLEE
+wait 10000           
+jump @NONAME_835 //если далеко   
+
+:NONAME_840
+wait 0
+//Actor.DestroyWithFade(4@)
+//Actor.DestroyWithFade(13@)
+Actor.RemoveReferences(4@)
+Actor.RemoveReferences(13@)
+Actor.RemoveReferences(14@)
+Actor.RemoveReferences(15@)
+Actor.RemoveReferences(16@)
+Car.RemoveReferences(5@)
+jump @NONAME_2 
+
+:NONAME_845
+wait 0
+Actor.DestroyInstantly(4@)
+Actor.DestroyInstantly(13@)
+Actor.DestroyInstantly(14@)
+Actor.DestroyInstantly(15@)
+Actor.DestroyInstantly(16@)
+Actor.RemoveReferences(4@)
+Actor.RemoveReferences(13@)
+Actor.RemoveReferences(14@)
+Actor.RemoveReferences(15@)
+Actor.RemoveReferences(16@)
+if 
+    not Actor.InCar($11992, 5@)
+then
+    Car.Destroy(5@) //CAUSE CRASH ON HJACK - DELETE CAR WITH PLAYER
+end
+Car.RemoveReferences(5@)
+jump @NONAME_2
+
+//FUNCTIONS
+
+:RELATIONS
+wait 0
+for 27@ = 0 to 3 step 1
+    //077A: set_actor 13@(27@,4i) acquaintance 2 to_actors_pedtype 0 //respect  
+
+    077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 23 //hate     
+    //077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 28 //hate     
+    077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 25 //hate   
+    //077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 26 //hate  
+    077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 27 //hate
+    077A: set_actor 13@(27@,4i) acquaintance 4 to_actors_pedtype 29 //hate
+end
+
+0746: SET_RELATIONSHIP 3 of_pedtype 23 to_pedtype 26  //zombies wont react?
+0746: SET_RELATIONSHIP 3 of_pedtype 25 to_pedtype 26   
+//0746: SET_RELATIONSHIP 3 of_pedtype 26 to_pedtype 26 
+0746: SET_RELATIONSHIP 3 of_pedtype 27 to_pedtype 26 
+0746: SET_RELATIONSHIP 3 of_pedtype 29 to_pedtype 26 
+//0746: SET_RELATIONSHIP 3 of_pedtype 28 to_pedtype 26 
+
+return
+
+:IS_LEFT
+wait 0
+if and
+    056D: is_char_exist $11992
+    056D: is_char_exist 4@
+then
+    if and
+        0104:  actor $11992 near_actor 4@ radius  300.0  300.0  300.0 sphere  0 
+        $ACTIVE_INTERIOR == 0
+    then
+        059A: return_false
+        return
+    else
+        0485: return_true
+        return
+    end
+else
+    0485: return_true
+    return
+end
+
+:GUNNERS_DEAD
+wait 0 //this shit not working
+if or
+    not Actor.Dead(13@)
+    not Actor.Dead(14@)
+    not Actor.Dead(15@)
+    not Actor.Dead(16@)
+then
+    059A: return_false
+    return
+else
+    0485: return_true
+    return
+end
+
+:IS_DEAD
+if or
+  Actor.Dead(4@)
+  20@ < 251
+then
+0485: return_true
+return
+else
+059A: return_false
+return
+end
+
+:CLOSER 
+wait 0
+0209: 29@ = random_int_in_ranges 0 10
+if and
+    29@ == 0
+    056D: is_char_exist 0@
+then
+    wait 0
+else
+    059A: return_false
+    0AB2: ret 0
+end                       
+actor.StorePos(0@, 24@, 25@, 26@)  //0@ = 13@ ...
+if and
+not Actor.Dead(0@)
+0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 200.0 find_next 1 pass_deads 1
+//0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 500.0 find_next 1 pass_deads 1
+then
+    089F: get_actor 20@ pedtype_to 31@ 
+    0665: get_actor 20@ model_to 21@
+    wait 0
+    if or
+        31@ == 0
+        31@ == 26
+        21@ == 16990 
+    then
+    059A: return_false
+    0AB2: ret 0
+    end
+    if or
+        31@ == 23
+        31@ == 25
+        31@ == 27
+        31@ == 29
+    then
+        
+        if and
+            056D: is_char_exist 20@
+            31@ == 23
+        then
+            05E2: AS_actor 0@ kill_actor 20@ 
+            05E2: AS_actor 20@ kill_actor 0@
+        end 
+        
+        0485: return_true
+        //0AB2: ret 1 20@
+        0AB2: ret 0 
+    else
+    059A: return_false
+    0AB2: ret 0
+    //jump @NEMESIS_0 
+    end
+else
+059A: return_false
+0AB2: ret 0
+end
+
+:SUSPECT_NEST 
+wait 0
+if 
+    056D: is_char_exist 0@
+then
+    wait 0
+else
+    059A: return_false
+    0AB2: ret 0
+end     
+actor.StorePos(0@, 24@, 25@, 26@)  //0@ = 13@ ...
+if and
+    not Actor.Dead(0@)
+    0AE1: 20@ = random_actor_near_point 24@ 25@ 26@ in_radius 300.0 find_next 1 pass_deads 1
+then
+    089F: get_actor 20@ pedtype_to 31@
+    0665: get_actor 20@ model_to 21@
+    wait 0
+    if or
+        31@ == 0
+        31@ == 26
+    then
+    059A: return_false
+    0AB2: ret 0
+    end
+    
+    if 
+        21@ == 16990
+    then
+    
+    //0726: heli 1@ follow_actor 20@ follow_car -1 radius 30.0 
+    
+    0485: return_true
+    0AB2: ret 1 20@
+    else
+    059A: return_false
+    0AB2: ret 0
+    //jump @NEMESIS_0 
+    end
+    
+    //0AB2: ret 1 20@
+else
+059A: return_false
+0AB2: ret 0
+end
+
+:ASSAULT_0  
+wait 0
+if 
+    056D: is_char_exist 0@
+then
+    wait 0
+else
+    059A: return_false
+    0AB2: ret 0
+end     
+actor.StorePos(0@, 24@, 25@, 26@)  //0@ = 13@ ...
+if and
+    not Actor.Dead(0@)
+    Actor.Dead(20@)
+    0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 300.0 find_next 1 pass_deads 1
+//0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 500.0 find_next 1 pass_deads 1
+then
+    089F: get_actor 20@ pedtype_to 31@
+    wait 0
+    if or
+        31@ == 0
+        31@ == 26
+    then
+    059A: return_false
+    0AB2: ret 0
+    end
+    
+    if or
+        31@ == 23
+        31@ == 25
+        31@ == 27
+        31@ == 29
+    then
+    
+    if 
+        056D: is_char_exist 20@
+    then    
+        0726: heli 1@ follow_actor 20@ follow_car -1 radius 30.0 
+    end
+    
+    0485: return_true
+    0AB2: ret 0
+    else
+    059A: return_false
+    0AB2: ret 0
+    //jump @NEMESIS_0 
+    end
+    
+    //0AB2: ret 1 20@
+else
+059A: return_false
+0AB2: ret 0
+end
+
+:BOMB_0     // give num of bombs and heli  == 0@ 1@ // x y == 2@ 3@
+//bomb
+
+if and
+    0@ > 0 
+    056E: is_veh_exist 1@
+    not Car.Wrecked(1@)
+then
+    wait 0
+else    
+    00BB: show_text_lowpriority GXT 'PLT_03' time 1000 flag 1
+    059A: return_false
+    0AB2: ret 0
+end
+if 
+    01AD:   car 1@ sphere 0 near_point 2@ 3@ radius 15.0 15.0
+then
+    0407: store_coords_to 4@ 5@ 6@ from_car 1@ with_offset 0.0 0.0 -2.0 
+    0107: 19@ = create_object 1636 at 4@ 5@ 6@
+    0382: set_object 19@ collision_detection 0 
+    0392: make_object 19@ moveable 0
+    //08D2: object 19@ scale_model 0.5
+    0001: wait 0 ms 
+    0382: set_object 19@ collision_detection 1 //just set on collision
+    04D9: SET_OBJECT 19@ RECORDS_COLLISIONS 1
+
+    0392: make_object 19@ moveable 1 
+    09CA: set_object 19@ immunities BP 1 FP 1 EP 1 CP 1 MP 1
+    00BB: show_text_lowpriority GXT 'PLT_02' time 1000 flag 1
+    04A2: heli 1@ fly_to 2@ 3@ 6@ speed 50.0 60.0  //safety 
+    0001: wait 1000 ms
+    TIMERA = 0
+    repeat
+        wait 0
+        if 
+           TIMERA > 20000 
+        then
+            break
+        end
+        wait 0
+    until 04DA: HAS_OBJECT 19@ COLLIDED_WITH_ANYTHING
+    wait 2000
+    01BB: store_object 19@ position_to 4@ 5@ 6@
+    if and
+        056E: 1@
+        not Car.Wrecked(1@)
+        04E9: object 19@ in_area 4@ 5@ range 30 30 sphere 0
+    then
+        wait 0
+    else    
+        059A: return_false
+        0AB2: ret 0
+    end                               
+    020C: create_explosion with_type 6 at 4@ 5@ 6@
+    4@ += 5.0  
+    020C: create_explosion with_type 6 at 4@ 5@ 6@ 
+    4@ -= 10.0     
+    020C: create_explosion with_type 6 at 4@ 5@ 6@
+    4@ += 5.0    
+    5@ += 5.0    
+    020C: create_explosion with_type 6 at 4@ 5@ 6@ 
+    5@ -= 10.0    
+    020C: create_explosion with_type 6 at 4@ 5@ 6@   
+    0108: destroy_object 19@ 
+    01C4: remove_references_to_object 19@ // This object will now disappear when the player looks away
+//    2@ = 0.0
+//    3@ = 0.0
+    0485: return_true
+    0AB2: ret 0 
+else
+    059A: return_false
+    0AB2: ret 0 
+//jump @FLEE_0
+end
+
+:CONDS
+wait 0
+if 
+  Player.Defined($11991)
+then
+    wait 0
+else    
+    059A: return_false
+    return
+end
+if or
+  0154:   actor $11992 in_zone 'LA'  
+  0154:   actor $11992 in_zone 'SF'  
+  0154:   actor $11992 in_zone 'RED'
+  0154:   actor $11992 in_zone 'VE'
+then
+    0485: return_true
+    return
+else
+    wait 0
+end
+if or
+  0154:   actor $11992 in_zone 'FLINTC'  
+  0154:   actor $11992 in_zone 'BONE'  
+  0154:   actor $11992 in_zone 'ROBAD'
+then
+    0485: return_true
+    return
+else
+    wait 0
+end
+059A: return_false
+return
+
+:FLEE
+04C4: store_coords_to 0@ 1@ 6@ from_actor 4@ with_offset 2000.0 2000.0 200.0 
+04A2: heli 5@ fly_to 0@ 1@ 6@ speed 30.0 70.0
+return
+/*
+:PROP_0
+//00BB: show_text_lowpriority GXT 'TEST_00' time 100 flag 1
+//AGENDA  //Глобалки ни в какую...  Забивают память? Конфликт чтения\записи?
+if and
+    056E: 5@   //car exixt
+    not Car.Wrecked(5@)  
+    0205:   actor $11992 near_car 5@ radius 150.0 150.0 150.0 flag 0 
+then 
+//$9066 = 1         
+//00BB: show_text_lowpriority GXT 'RED1_00' time 3000 flag 1
+//0AB3: var $9066 = 1
+0AB3: var $9067 = 1
+return
+else
+//$9066 = 0
+//00BB: show_text_lowpriority GXT 'RED1_01' time 3000 flag 1
+//0AB3: var $9066 = 0
+0AB3: var $9067 = 0
+//0AB3: var $9066 = 5@
+return
+end     */

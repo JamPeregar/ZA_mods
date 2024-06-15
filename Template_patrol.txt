@@ -1,0 +1,892 @@
+// This file was decompiled using SASCM.ini published on 2022-03-20
+// Special thanks to guy who write "police call" script for original gta sa and cleo forums homies.
+{$CLEO .cs}
+{$USE CLEO+}
+
+0000: TEMP 
+wait 0
+:NONAME_2
+wait 0 
+if and
+  Player.Defined($11991)     
+  $ACTIVE_INTERIOR == 0
+jf @NONAME_2
+wait 0
+TIMERA = 0
+//0209: 29@ = random_int_in_ranges 10000 30000
+wait 10   
+while TIMERA < 35000
+    wait 1
+    if
+        0ADC: test_cheat "TEST" 
+    then
+        03E5: show_text_box 'CHEAT1'
+        jump @NONAME_157
+    end  
+    //29@ -= 1
+end //while
+wait 0 
+if 
+    gosub @CONDS
+jf @NONAME_2
+0209: 29@ = random_int_in_ranges 0 100    //Random spawn or no    Рандом спавнить или нет 
+wait 0 
+if 
+  29@ == 0
+then
+    wait 100 
+    jump @NONAME_157 
+else
+    00BB: show_text_lowpriority GXT 'TST00' time 3000 flag 1
+    jump @NONAME_2
+end
+
+:NONAME_157
+wait 0
+23@ = 7
+24@ = 7
+25@ = 7
+26@ = 7
+
+for 27@ = 0 to 3 step 1
+
+    gosub @GUNS_MODELS
+    0781: get_weapon_with_ID 12@(27@,4i) model_to 12@(27@,4i)
+end   //for 
+0209: 29@ = random_int_in_ranges 0 3
+if 
+    29@ == 0
+then    
+11@ = 422   //car
+end
+if 
+    29@ == 1
+then    
+11@ = 462   //car
+end
+if 
+    29@ == 2
+then    
+11@ = 540   //car
+end
+jump @NONAME_393 
+
+:NONAME_393
+wait 1000       //Измени  @GUNS_0 и цикл ниже для других пушек
+Model.Load(12@)    //sniper + pistol chance
+Model.Load(13@)      //shotgun 
+Model.Load(14@)   //  smg
+Model.Load(15@)   //machine gun
+Model.Load(23@)     //Characters skins
+Model.Load(24@)
+Model.Load(25@)
+Model.Load(26@)
+Model.Load(11@)
+038B: load_requested_models 
+jump @NONAME_422 
+
+:NONAME_422
+wait 0 
+if and
+  Model.Available(23@)
+  Model.Available(24@)
+  Model.Available(25@)
+  Model.Available(26@)
+  Model.Available(11@)
+jf @NONAME_422 
+wait 0
+if and 
+  Model.Available(12@) 
+  Model.Available(13@) 
+  Model.Available(14@) 
+  Model.Available(15@) 
+jf @NONAME_422 
+if or
+    11@ == 422
+    11@ == 462
+then
+    jump @NONAME_423
+else
+    jump @NONAME_424
+end
+
+
+:NONAME_423
+wait 0
+0208: 3@ = random_float_in_ranges -70.0 70.0 
+0208: 4@ = random_float_in_ranges -70.0 70.0 
+04C4: store_coords_to 0@ 1@ 2@ from_actor $11992 with_offset 3@ 4@ 100.0 
+02C1: store_to 5@ 6@ 7@ car_path_coords_closest_to 0@ 1@ 2@
+if 
+    80EC:   not actor $11992 sphere 0 near_point 5@ 6@ 7@ radius 20.0 20.0 
+jf @NONAME_422
+if 
+00C2:   sphere_onscreen 5@ 6@ 7@ radius 5.0 //точка на экране? 
+then
+jump @NONAME_422
+end 
+Car.Create(30@, 11@, 5@, 6@, 7@)   
+0208: 3@ = random_float_in_ranges -10.0 10.0 
+0208: 4@ = random_float_in_ranges -10.0 10.0  
+04C4: store_coords_to 8@ 9@ 10@ from_actor $11992 with_offset 3@ 4@ 0.0 
+Car.DriveTo(30@, 8@, 9@, 10@) 
+Car.SetMaxSpeed(30@, 50.0)
+Actor.CreateAsDriver(16@, 26, 23@, 30@) 
+08C6: set_actor 16@ stay_on_bike 1
+Actor.CreateAsPassenger(17@, 26, 24@, 30@, 0)
+00AE: set_car 30@ traffic_behaviour_to 2
+wait 0    
+0208: 3@ = random_float_in_ranges -10.0 10.0 
+0208: 4@ = random_float_in_ranges -10.0 10.0  
+0407: store_coords_to 5@ 6@ 7@ from_car 30@ with_offset 3@ 4@ 0.0
+02C1: store_to 5@ 6@ 7@ car_path_coords_closest_to 0@ 1@ 2@
+Car.Create(31@, 11@, 5@, 6@, 7@) 
+Car.DriveTo(31@, 8@, 9@, 10@) 
+Car.SetMaxSpeed(31@, 50.0)
+Actor.CreateAsDriver(18@, 26, 25@, 31@) 
+08C6: set_actor 18@ stay_on_bike 1
+Actor.CreateAsPassenger(19@, 26, 26@, 31@, 0)      
+
+ 
+jump @NONAME_425
+    
+:NONAME_424
+wait 0 
+0208: 3@ = random_float_in_ranges -70.0 70.0 
+0208: 4@ = random_float_in_ranges -70.0 70.0 
+04C4: store_coords_to 0@ 1@ 2@ from_actor $11992 with_offset 3@ 4@ 100.0 
+02C1: store_to 5@ 6@ 7@ car_path_coords_closest_to 0@ 1@ 2@
+if 
+    80EC:   not actor $11992 sphere 0 near_point 5@ 6@ 7@ radius 20.0 20.0 
+jf @NONAME_422
+if 
+00C2:   sphere_onscreen 5@ 6@ 7@ radius 5.0 //точка на экране? 
+then
+jump @NONAME_422
+end 
+0208: 3@ = random_float_in_ranges -50.0 50.0 
+0208: 4@ = random_float_in_ranges -50.0 50.0  
+Car.Create(30@, 11@, 5@, 6@, 7@)
+04C4: store_coords_to 8@ 9@ 10@ from_actor $11992 with_offset 3@ 4@ 0.0 
+Car.DriveTo(30@, 8@, 9@, 10@) 
+Car.SetMaxSpeed(30@, 50.0)
+00AE: set_car 30@ traffic_behaviour_to 2 
+Actor.CreateAsDriver(16@, 26, 23@, 30@)
+Actor.CreateAsPassenger(17@, 26, 24@, 30@, 0)
+Actor.CreateAsPassenger(18@, 26, 25@, 30@, 1)
+Actor.CreateAsPassenger(19@, 26, 26@, 30@, 2)
+
+jump @NONAME_425
+
+:NONAME_425
+wait 0
+Actor.Health(16@) = 800
+Actor.Health(17@) = 800  
+//Actor.SetImmunities(17@, False, False, False, False, False)
+Actor.Health(18@) = 800
+Actor.Health(19@) = 800 
+for 27@ = 0 to 3     //for   Соответсвие
+    gosub @GUNS_1
+    Actor.GiveWeaponAndAmmo(16@(27@,4i), 12@(27@,4i), 9999)
+end //for
+Actor.WeaponAccuracy(16@) = 80
+Actor.WeaponAccuracy(17@) = 80
+Actor.WeaponAccuracy(18@) = 80
+Actor.WeaponAccuracy(19@) = 80
+0446: set_actor 16@ headshots 0
+0446: set_actor 17@ headshots 0
+0446: set_actor 18@ headshots 0
+0446: set_actor 19@ headshots 0  
+060A: create_decision_maker_type 4 store_to 28@ // decision\allowed\m_.ped files  
+0708: reset_decision_maker 28@ event 31
+0708: reset_decision_maker 28@ event 9   
+0709: set_decision_maker 28@ on_event 10 taskID 277 respect 100.0 hate 100.0 like 100.0 dislike 100.0 in_car 1 on_foot 1
+0709: set_decision_maker 28@ on_event 9 taskID 1000 respect 0.0 hate 100.0 like 0.0 dislike 100.0 in_car 1 on_foot 1
+060B: set_actor 16@ decision_maker_to 28@
+060B: set_actor 17@ decision_maker_to 28@
+060B: set_actor 18@ decision_maker_to 28@
+060B: set_actor 19@ decision_maker_to 28@
+
+gosub @RELATIONS
+
+//065C: remove_references_to_decision_maker 28@
+
+0245: set_actor 16@ walk_style_to "surv5"  
+0245: set_actor 17@ walk_style_to "surv5"  
+0245: set_actor 18@ walk_style_to "surv5"  
+0245: set_actor 19@ walk_style_to "surv5"  
+0209: 3@ = random_int_in_ranges 0 4
+if 
+    3@ == 0
+then
+0AAC: 3@ = load_audio_stream "AUDIO\SOUNDS\MUSIC\dynamic_music\survival_ambient\random_sounds\city_battle7.wav"  
+end
+if 
+    3@ == 1
+then
+0AAC: 3@ = load_audio_stream "AUDIO\SOUNDS\MUSIC\dynamic_music\survival_ambient\random_sounds\city_battle12.wav"  
+end
+if 
+    3@ == 2
+then
+0AAC: 3@ = load_audio_stream "AUDIO\SOUNDS\MUSIC\dynamic_music\survival_ambient\random_sounds\city_battle14.wav"  
+end
+if 
+    3@ == 3
+then
+0AAC: 3@ = load_audio_stream "AUDIO\SOUNDS\MUSIC\dynamic_music\survival_ambient\random_sounds\city_battle17.wav"  
+end
+
+for 27@ = 0 to 3 step 1
+    gosub @GUNS_MODELS
+    0781: get_weapon_with_ID 12@(27@,4i) model_to 12@(27@,4i)
+    Model.Destroy(12@(27@,4i))
+    Model.Destroy(23@(27@,4i))
+end   //for 
+
+Model.Destroy(11@)
+jump @NONAME_708 
+
+:NONAME_708 
+wait 0
+0AAD: set_audio_stream 3@ state 1 
+wait 8000
+if and
+  not Actor.Dead($11992)
+  0202:   actor $11992 near_car 30@ radius 150.0 150.0 150.0 flag 0
+  //is_key_pressed 96 
+jf @NONAME_845
+//Marker.Disable(31@)
+jump @NONAME_744 
+
+:NONAME_744
+wait 0
+if or
+  not Actor.Dead(16@)
+  not Actor.Dead(17@)
+  not Actor.Dead(18@)
+  not Actor.Dead(19@) 
+jf @NONAME_840
+068B: all_exit_car 30@
+if
+    056E: car_exist 31@ 
+then
+    068B: all_exit_car 31@ 
+    Car.RemoveReferences(31@)
+end
+for 27@ = 0 to 3 step 1
+    //05CD: AS_actor 16@(27@,4i) exit_car 30@
+    05DE: 16@(27@,4i) GO_WANDER   //careful with thataaa
+end
+Car.RemoveReferences(30@)
+gosub @PH_0
+
+
+:NONAME_808
+wait 0
+if 
+    not Actor.Dead($11992)
+jf @NONAME_840
+wait 0
+if and
+    $ACTIVE_INTERIOR == 0
+    gosub @isHERE
+then
+    wait 0
+else
+    jump @NONAME_845
+end
+
+if and
+  Actor.Dead(16@)
+  Actor.Dead(17@)
+  Actor.Dead(18@)
+  Actor.Dead(19@) 
+jf @NEMESIS_CHECK_0
+jump @NONAME_840
+
+
+
+:NEMESIS_CHECK_0
+wait 0
+//make new target if last die and etc
+for 27@ = 0 to 3 step 1
+    if and
+        0AB1: call_scm_func @isAlive 1 16@(27@,4i)
+        0AB1: call_scm_func @isNotExist 1 20@(27@,4i)
+    then
+        if  
+            0AB1: call_scm_func @NEMESIS 1 16@(27@,4i) res 20@(27@,4i)
+        then
+            if
+                gosub @isNEAR
+            then
+                wait 0
+                //00BC: show_text_priority GXT 'TST_00' time 3000 flag 1
+                gosub @PH_ATTACK 
+            end
+            wait 0
+        /*else
+            05DE: 16@(27@,4i) GO_WANDER //Quite with that*/
+        end
+    else
+        wait 0                  
+        if
+            0AB1: call_scm_func @isAlive 1 16@(27@,4i)
+        then
+            05E2: AS_actor 16@(27@,4i) kill_actor 20@(27@,4i) //i dont like this...
+        end
+        
+    end 
+end
+
+
+//A bit random targetting to avoid endless assault
+:NEMESIS_EXTRA
+0209: 29@ = random_int_in_ranges 0 4
+if
+    29@ == 0
+then
+    0209: 11@ = random_int_in_ranges 0 4
+    if and
+        056D: actor 16@(11@,4i) defined
+        not Actor.Dead(16@(11@,4i))
+        29@ == 0
+    then
+        20@(11@,4i) = 0
+        0AB1: call_scm_func @NEMESIS 1 16@(11@,4i) res 20@(11@,4i)
+        jf @NONAME_809
+        gosub @GRENADE
+        //gosub @PH_THROW
+    end 
+end   
+         
+:NONAME_809
+wait 0
+for 27@ = 0 to 3 step 1
+    if and
+        056D: actor 16@(27@,4i) defined
+        0AB1: call_scm_func @CLOSER 1 16@(27@,4i) //res 20@(27@,4i)
+    then
+        wait 0
+    end
+end
+
+//checks  
+gosub @CLEAN    //cause crash  ???  clean memory
+jump @NONAME_808
+
+
+//end and final cleaning
+:NONAME_840
+wait 0
+for 27@ = 0 to 3 step 1     //??? Очистка целей
+    20@(27@,4i) = 0
+end
+
+wait 100 
+for 27@ = 0 to 3
+    if 
+        056D: actor 16@(27@,4i) defined
+    then
+        Actor.RemoveReferences(16@(27@,4i))
+    end
+end                                                                                    
+065C: remove_references_to_decision_maker 28@
+for 27@ = 0 to 1 step 1     //???
+    if
+        056E: is_veh_exist 30@(27@,4i)
+    then
+        Car.RemoveReferences(30@(27@,4i))
+    end
+end
+wait 10
+jump @NONAME_2 
+//instant remove
+:NONAME_845
+wait 0
+//00BB: show_text_lowpriority GXT 'PH77_5' time 3000 flag 1
+for 27@ = 0 to 4 step 1     //???
+    20@(27@,4i) = 0
+    if 
+        056D: actor 16@(27@,4i) defined
+    then
+        Actor.DestroyInstantly(16@(27@,4i))
+        Actor.RemoveReferences(16@(27@,4i))
+    end
+end
+wait 10
+for 27@ = 0 to 1 step 1     //???
+    if 
+        not Actor.InCar($11992, 30@(27@,4i),4i))  
+    then
+        Car.Destroy(30@(27@,4i)) //CAUSE CRASH ON HJACK - DELETE CAR WITH PLAYER
+    end
+    if
+        056E: is_veh_exist 30@(27@,4i)
+    then
+        Car.RemoveReferences(30@(27@,4i))
+    end
+end
+065C: remove_references_to_decision_maker 28@ 
+wait 0
+jump @NONAME_2
+ 
+//FUNCTIONS / ФУНКЦИИ
+//add car check for punishers
+:RELATIONS
+wait 0
+for 27@ = 0 to 3 step 1
+    //077A: set_actor 16@(27@,4i) acquaintance 2 to_actors_pedtype 0 //respect  
+
+    077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 23 //hate     
+    //077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 28 //hate     
+    077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 25 //hate   
+    //077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 26 //hate  
+    077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 27 //hate
+    077A: set_actor 16@(27@,4i) acquaintance 4 to_actors_pedtype 29 //hate
+end
+0746: SET_RELATIONSHIP 4 of_pedtype 23 to_pedtype 26  //zombies wont react?
+0746: SET_RELATIONSHIP 4 of_pedtype 25 to_pedtype 26   
+//0746: SET_RELATIONSHIP 4 of_pedtype 26 to_pedtype 26 
+0746: SET_RELATIONSHIP 4 of_pedtype 27 to_pedtype 26 
+0746: SET_RELATIONSHIP 4 of_pedtype 29 to_pedtype 26 
+//0746: SET_RELATIONSHIP 4 of_pedtype 28 to_pedtype 26 
+if
+    is_on_mission
+then
+    gosub @DEFAULTS
+end
+return
+
+:DEFAULTS
+wait 0
+0746: SET_RELATIONSHIP 0 of_pedtype 23 to_pedtype 26  //zombies wont react?
+0746: SET_RELATIONSHIP 0 of_pedtype 25 to_pedtype 26   
+//0746: SET_RELATIONSHIP 4 of_pedtype 26 to_pedtype 26 
+0746: SET_RELATIONSHIP 0 of_pedtype 27 to_pedtype 26 
+0746: SET_RELATIONSHIP 0 of_pedtype 29 to_pedtype 26 
+//0746: SET_RELATIONSHIP 4 of_pedtype 28 to_pedtype 26 
+
+return
+
+:NEMESIS 
+wait 0
+if and
+    056D: actor 0@ defined //if
+    not Actor.Dead(0@)
+then
+    wait 0
+else
+    059A: return_false
+    0AB2: ret 0
+end  
+actor.StorePos(0@, 24@, 25@, 26@)  //0@ = 16@
+if
+0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 1000.0 find_next 1 pass_deads 1
+//0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 500.0 find_next 1 pass_deads 1
+then
+    089F: get_actor 20@ pedtype_to 31@ 
+    wait 0  
+    if or
+        31@ == 0
+        31@ == 26
+    then
+        059A: return_false
+        0AB2: ret 0
+    end 
+    if or
+        //31@ == 28
+        31@ == 25
+        31@ == 27
+        31@ == 29    
+        //31@ == 23 
+    then
+        05E2: AS_actor 0@ kill_actor 20@
+        if 
+            056D: is_char_exist 20@
+        then
+            //05E2: AS_actor 0@ kill_actor 20@ 
+            //05E2: AS_actor 20@ kill_actor 0@
+            0485: return_true
+            0AB2: ret 1 20@
+        end 
+        //07A5: AS_actor 0@ kill_actor 20@ in_time -1
+        wait 0
+        
+        059A: return_false
+        0AB2: ret 1 20@
+    else
+    059A: return_false
+    0AB2: ret 0
+    //jump @NEMESIS_0 
+    end
+else
+059A: return_false
+0AB2: ret 0
+end
+
+:CLOSER 
+wait 0
+if and
+    056D: actor 0@ defined //if
+    not Actor.Dead(0@)
+then
+    wait 0
+else
+    059A: return_false
+    0AB2: ret 0
+end  
+actor.StorePos(0@, 24@, 25@, 26@)  //0@ = 16@
+if
+0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 20.0 find_next 1 pass_deads 1
+//0AE1:   20@ = random_actor_near_point 24@ 25@ 26@ in_radius 500.0 find_next 1 pass_deads 1
+then
+    089F: get_actor 20@ pedtype_to 31@
+    wait 0
+    if or
+        31@ == 0
+        31@ == 26
+    then
+        059A: return_false
+        0AB2: ret 0
+    end
+    if
+        31@ == 23 //zombie only
+    then
+        //05E2: AS_actor 0@ kill_actor 20@ 
+        if 
+            056D: is_char_exist 20@
+        then
+            05E2: AS_actor 0@ kill_actor 20@ 
+            05E2: AS_actor 20@ kill_actor 0@
+        end 
+        //07A5: AS_actor 0@ kill_actor 20@ in_time -1
+        
+        0485: return_true
+        0AB2: ret 0//1 20@
+    else
+        059A: return_false
+        0AB2: ret 0
+    //jump @NEMESIS_0 
+    end
+else
+059A: return_false
+0AB2: ret 0
+end
+wait 0
+
+:GRENADE
+wait 0 
+0209: 29@ = random_int_in_ranges 0 4
+wait 0
+if and
+    29@ == 0
+    not Actor.HasWeapon(16@(11@,4i), 16)
+then
+    //05BC: AS_actor 16@(11@,4i) jump 1 
+    Actor.GiveWeaponAndAmmo(16@(11@,4i), 16, 1)  
+end
+//0AB2: ret 0//1 20@
+return   
+
+:isAlive
+wait 0
+if
+    056D: actor 0@ defined //if 
+then
+    if
+        not Actor.Dead(0@)
+    then
+        0485: return_true
+    else
+        059A: return_false   
+    end
+else
+    059A: return_false
+end
+0AB2: ret 0//1 20@
+
+:isNotExist
+wait 0
+if
+    056D: actor 0@ defined //if 
+then
+    if
+        not Actor.Dead(0@)
+    then
+        059A: return_false
+        0AB2: ret 0//1 20@  
+    else
+        0485: return_true
+        0AB2: ret 0//1 20@
+    end
+else
+    0485: return_true
+    0AB2: ret 0//1 20@
+end
+0485: return_true
+0AB2: ret 0//1 20@
+
+:isHERE //эти штуки барахлят переделать в scm
+wait 0
+for 27@ = 0 to 3 step 1
+    if 
+        056D: actor 16@(27@,4i) defined //if
+    then
+        if 
+            0104:  actor $11992 near_actor 16@(27@,4i) radius 200.0 200.0 200.0 sphere  0
+        then   
+            0485: return_true 
+            return
+        end
+    end
+end
+059A: return_false  
+return
+
+:isNEAR 
+wait 0
+if and 
+    056D: actor 16@(27@,4i) defined //if 
+    not Actor.Dead(16@(27@,4i))
+    //0104:  actor $11992 near_actor 0@ radius  20.0  20.0  20.0 sphere  0
+then
+    if  
+        0104:  actor $11992 near_actor 16@(27@,4i) radius 10.0 10.0 10.0 sphere  0
+    then   
+        0485: return_true
+        return
+        //0AB2: ret 0   //this scm cause crash
+    end
+else
+    059A: return_false
+    return
+    //0AB2: ret 0
+end                       
+
+:CONDS
+wait 0
+if 
+  Player.Defined($11991)
+then
+    wait 0
+else    
+    059A: return_false
+    return
+end
+if or
+  0154:   actor $11992 in_zone 'LA'  
+  0154:   actor $11992 in_zone 'SF'  
+  0154:   actor $11992 in_zone 'RED'
+  0154:   actor $11992 in_zone 'VE'
+then
+    0485: return_true
+    return
+else
+    wait 0
+end
+if or
+  0154:   actor $11992 in_zone 'FLINTC'  
+  0154:   actor $11992 in_zone 'BONE'  
+  0154:   actor $11992 in_zone 'ROBAD'
+then
+    0485: return_true
+    return
+else
+    wait 0
+end
+059A: return_false
+return
+
+:CLEAN 
+wait 0
+//056D: actor $ACTOR defined //if
+ for 27@ = 0 to 3
+     if
+        056D: actor 16@(27@,4i) defined //if
+    then
+        if
+            Actor.Dead(16@(27@,4i))
+        then
+            Actor.RemoveReferences(16@(27@,4i))
+            if
+                056D: actor 20@(27@,4i) defined //if
+            then
+                wait 0
+                20@(27@,4i) = 0
+            end
+        end
+    end
+end
+return
+
+:PH_0 
+wait 0
+0209: 29@ = random_int_in_ranges 0 6
+if
+    29@ == 0
+then
+00BB: show_text_lowpriority GXT 'KGT0_00' time 3000 flag 1
+end
+if
+    29@ == 1
+then
+00BB: show_text_lowpriority GXT 'KGT0_01' time 3000 flag 1
+end
+if
+    29@ == 2
+then
+00BB: show_text_lowpriority GXT 'KGT0_02' time 3000 flag 1
+end
+if
+    29@ == 3
+then
+00BB: show_text_lowpriority GXT 'KGT0_03' time 3000 flag 1
+end
+if
+    29@ == 4
+then
+00BB: show_text_lowpriority GXT 'KGT0_04' time 3000 flag 1
+end
+if
+    29@ == 5
+then
+00BB: show_text_lowpriority GXT 'KGT0_05' time 3000 flag 1
+end
+return
+
+:PH_ATTACK  
+wait 0
+0209: 29@ = random_int_in_ranges 0 6
+                
+if
+    29@ == 0
+then
+    00BB: show_text_lowpriority GXT 'KGT1_00' time 2000 flag 1
+end
+if
+    29@ == 1
+then
+    00BB: show_text_lowpriority GXT 'KGT1_01' time 2000 flag 1
+end
+if
+    29@ == 2
+then
+    00BB: show_text_lowpriority GXT 'KGT1_02' time 2000 flag 1
+end
+if
+    29@ == 3
+then
+    00BB: show_text_lowpriority GXT 'KGT1_03' time 2000 flag 1
+end
+if
+    29@ == 4
+then
+    00BB: show_text_lowpriority GXT 'KGT1_04' time 2000 flag 1
+end
+if
+    29@ == 5
+then
+    00BB: show_text_lowpriority GXT 'KGT1_05' time 2000 flag 1
+end
+wait 0
+return
+
+/*:GUNS_0
+wait 0
+0209: 29@ = random_int_in_ranges 0 4
+if
+    29@ == 0
+then
+    0209: 0@ = random_int_in_ranges 0 2
+    if 
+        0@ == 0
+    then
+        12@(27@,4i) = 12427     //sniper
+    else
+        12@(27@,4i) = 346     //pistol
+    end
+end 
+if
+    29@ == 1
+then
+12@(27@,4i) = 12433      //shotgun
+end 
+if
+    29@ == 2
+then
+12@(27@,4i) = 12409      //smg
+end 
+if
+    29@ == 3
+then
+12@(27@,4i) = 356    //assault 
+end
+
+return  */
+
+:GUNS_MODELS
+wait 0
+//0209: 0@ = random_int_in_ranges 0 5
+if 
+    27@ == 0
+then
+    12@(27@,4i) = 33     //sniper
+end
+if
+    27@ == 1
+then
+12@(27@,4i) = 73      //shotgun
+end 
+if
+    27@ == 2
+then
+12@(27@,4i) = 87      //smg
+end 
+if
+    27@ == 3
+then
+12@(27@,4i) = 30    //assault 
+end
+if
+    27@ == 4
+then
+12@(27@,4i) = 22    //pistol 
+end
+
+return
+
+:GUNS_1
+wait 0
+0209: 29@ = random_int_in_ranges 0 4
+if
+    29@ == 0
+then
+    0209: 0@ = random_int_in_ranges 0 2
+    if 
+        0@ == 0
+    then
+        12@(27@,4i) = 33     //sniper
+    else
+        12@(27@,4i) = 22     //pistol
+    end
+end 
+if
+    29@ == 1
+then
+    12@(27@,4i) = 73      //shotgun
+end 
+if
+    29@ == 2
+then
+    12@(27@,4i) = 87      //smg
+end 
+if
+    29@ == 3
+then
+    12@(27@,4i) = 30    //assault 
+end
+
+return
+
